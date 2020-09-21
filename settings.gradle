@@ -1,0 +1,3 @@
+include ':app'
+include ':libgiftplayer'
+rootProject.name = "礼物视频动画"

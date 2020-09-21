@@ -1,0 +1,13 @@
+ext {
+    android = [
+            applicationId: "com.wepie.werewolfkill",
+            compileSdkVersion: 29,
+            buildToolsVersion: "29.0.2",
+            minSdkVersion    : 21,
+            targetSdkVersion : 29,
+            ndkVersion : "21.3.6528147",
+    ]
+
+    jdkVersion = JavaVersion.VERSION_1_8
+
+}
