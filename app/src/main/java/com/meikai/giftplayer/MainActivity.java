@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         btnTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                giftVideoView.setVideoFromAssets("gift.mp4");
+                giftVideoView.setVideoFromAssets("test2.mp4");
             }
         });
 

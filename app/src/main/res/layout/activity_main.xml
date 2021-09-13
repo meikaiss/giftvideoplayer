@@ -16,6 +16,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#f00"
         android:layout_gravity="center">
 
         <com.meikai.giftplayer.GiftVideoView
@@ -23,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            app:scaleType="center_crop" />
+            app:scaleType="center_crop"/>
 
     </FrameLayout>
 

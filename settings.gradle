@@ -1,3 +1,5 @@
 include ':app'
 include ':libgiftplayer'
 rootProject.name = "礼物视频动画"
+include ':libgiftplayer2'
+include ':app2'

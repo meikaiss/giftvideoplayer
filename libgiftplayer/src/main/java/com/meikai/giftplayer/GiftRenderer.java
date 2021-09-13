@@ -17,6 +17,7 @@
 package com.meikai.giftplayer;
 
 import android.graphics.SurfaceTexture;
+import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 import android.view.Surface;
 
@@ -65,7 +66,7 @@ public class GiftRenderer implements GLTextureView.Renderer, SurfaceTexture.OnFr
             + "varying vec2 v_texcoord;\n"
             + "uniform samplerExternalOES sTexture;\n"
             + "void main() {\n"
-            + "  gl_FragColor = vec4(texture2D(sTexture, v_texcoord + vec2(-0.5, 0)).rgb, texture2D(sTexture, v_texcoord).r);\n"
+            + "  gl_FragColor = vec4(texture2D(sTexture, v_texcoord + vec2(-0.4956, 0)).rgb, texture2D(sTexture, v_texcoord).r);\n"
             + "}\n";
 
 
@@ -87,8 +88,6 @@ public class GiftRenderer implements GLTextureView.Renderer, SurfaceTexture.OnFr
 
     private SurfaceTexture surface;
     private boolean updateSurface = false;
-
-    private static int GL_TEXTURE_EXTERNAL_OES = 0x8D65;
 
     private OnSurfacePrepareListener onSurfacePrepareListener;
 
@@ -127,7 +126,7 @@ public class GiftRenderer implements GLTextureView.Renderer, SurfaceTexture.OnFr
         checkGlError("glUseProgram");
 
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-        GLES20.glBindTexture(GL_TEXTURE_EXTERNAL_OES, textureID);
+        GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, textureID);
 
         triangleVertices.position(TRIANGLE_VERTICES_DATA_POS_OFFSET);
         GLES20.glVertexAttribPointer(aPositionHandle, 2, GLES20.GL_FLOAT, false,
@@ -184,12 +183,12 @@ public class GiftRenderer implements GLTextureView.Renderer, SurfaceTexture.OnFr
         GLES20.glGenTextures(1, textures, 0);
 
         textureID = textures[0];
-        GLES20.glBindTexture(GL_TEXTURE_EXTERNAL_OES, textureID);
+        GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, textureID);
         checkGlError("glBindTexture textureID");
 
-        GLES20.glTexParameterf(GL_TEXTURE_EXTERNAL_OES, GLES20.GL_TEXTURE_MIN_FILTER,
+        GLES20.glTexParameterf(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES20.GL_TEXTURE_MIN_FILTER,
                 GLES20.GL_NEAREST);
-        GLES20.glTexParameterf(GL_TEXTURE_EXTERNAL_OES, GLES20.GL_TEXTURE_MAG_FILTER,
+        GLES20.glTexParameterf(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES20.GL_TEXTURE_MAG_FILTER,
                 GLES20.GL_LINEAR);
 
         surface = new SurfaceTexture(textureID);
