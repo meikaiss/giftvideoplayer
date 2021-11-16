@@ -10,8 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="左色彩右Alpha——原始视频"
         android:onClick="onClick"
+        android:text="左色彩右Alpha——原始视频"
         android:textAllCaps="false" />
 
     <Button
@@ -19,8 +19,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="左色彩右Alpha——合成效果"
         android:onClick="onClick"
+        android:text="左色彩右Alpha——合成效果"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btn_03"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:onClick="onClick"
+        android:text="上色彩下Alpha——原始视频"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btn_04"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:onClick="onClick"
+        android:text="上色彩下Alpha——合成效果"
         android:textAllCaps="false" />
 
 

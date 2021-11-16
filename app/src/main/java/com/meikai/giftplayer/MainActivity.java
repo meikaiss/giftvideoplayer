@@ -24,6 +24,11 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(view.getContext(), DemoActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.btn_03:
+
+                break;
+            case R.id.btn_04:
+                break;
             default:
                 break;
         }
