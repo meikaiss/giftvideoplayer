@@ -1,33 +1,31 @@
 package com.meikai.giftplayer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    private Button btnTest;
-    private GiftVideoView giftVideoView;
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
 
-        btnTest = findViewById(R.id.btn_start);
-        giftVideoView = findViewById(R.id.gift_video_view);
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_01:
 
-
-        btnTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                giftVideoView.setVideoFromAssets("test2.mp4");
-            }
-        });
-
-
+                break;
+            case R.id.btn_02:
+                Intent intent = new Intent(view.getContext(), DemoActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
     }
 }

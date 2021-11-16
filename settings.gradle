@@ -1,5 +1,10 @@
+rootProject.name = "礼物视频动画"
+
 include ':app'
 include ':libgiftplayer'
-rootProject.name = "礼物视频动画"
-include ':libgiftplayer2'
-include ':app2'
+
+
+//app2与libgiftplayer2仅用于研究视频源中色彩与透明通道的位置是否存在偏差，在实际业务项目中并没有作用，因此这里注释掉
+//include ':app2'
+//include ':libgiftplayer2'
+

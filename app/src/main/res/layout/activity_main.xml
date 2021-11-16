@@ -1,31 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:gravity="center"
+    android:orientation="vertical">
 
     <Button
-        android:id="@+id/btn_start"
+        android:id="@+id/btn_01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="开始播放" />
+        android:text="左色彩右Alpha——原始视频"
+        android:onClick="onClick"
+        android:textAllCaps="false" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#f00"
-        android:layout_gravity="center">
+    <Button
+        android:id="@+id/btn_02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="左色彩右Alpha——合成效果"
+        android:onClick="onClick"
+        android:textAllCaps="false" />
 
-        <com.meikai.giftplayer.GiftVideoView
-            android:id="@+id/gift_video_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            app:scaleType="center_crop"/>
 
-    </FrameLayout>
-
-</FrameLayout>
+</LinearLayout>

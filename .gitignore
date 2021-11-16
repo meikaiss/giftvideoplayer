@@ -1,14 +1,15 @@
 *.iml
 .gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+local.properties
 .DS_Store
 /build
 /captures
 .externalNativeBuild
 .cxx
+/.idea
+
+
+
+
+#将某个文件或文件夹加入到gitignore的方法
+#添加好这一项后在终端执行 git rm -r --cached .idea
