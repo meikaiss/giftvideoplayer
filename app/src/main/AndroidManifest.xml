@@ -18,8 +18,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".LeftColorRightAlphaActivity" />
         <activity android:name=".VideoViewActivity" />
+        <activity android:name=".LeftColorRightAlphaActivity" />
+        <activity android:name=".TopColorBottomAlphaActivity" />
 
     </application>
 

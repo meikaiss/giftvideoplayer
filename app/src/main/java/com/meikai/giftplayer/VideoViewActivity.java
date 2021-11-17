@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.VideoView;
@@ -47,8 +48,8 @@ public class VideoViewActivity extends AppCompatActivity {
                     mediaPlayer.setDataSource(assetFileDescriptor);
                     mediaPlayer.prepare();
                     mediaPlayer.start();
-                }catch (Exception e) {
-
+                } catch (Exception e) {
+                    Log.e("", e.getMessage(), e);
                 }
             }
 

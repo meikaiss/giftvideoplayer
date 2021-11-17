@@ -108,6 +108,10 @@ public class GiftVideoView extends GLTextureView {
         setOpaque(false);
     }
 
+    public void setAlphaMode(AlphaMode alphaMode) {
+        renderer.setAlphaMode(alphaMode);
+    }
+
     public void setWidth(int width) {
         this.mWidth = width;
     }
@@ -446,7 +450,6 @@ public class GiftVideoView extends GLTextureView {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        logI(" onLayout w " + getMeasuredWidth() + " h " + getMeasuredHeight());
     }
 
     private void initMediaPlayer() {
@@ -474,10 +477,26 @@ public class GiftVideoView extends GLTextureView {
     }
 
     private void calculateVideoAspectRatio(int videoWidth, int videoHeight) {
-        if (videoWidth > 0 && videoHeight > 0) {
-            videoAspectRatio = (float) videoWidth / 2 / videoHeight;
+
+        boolean isHor;
+        if (renderer.getAlphaMode() == null
+                || renderer.getAlphaMode() == AlphaMode.LeftAlphaRightColor
+                || renderer.getAlphaMode() == AlphaMode.LeftColorRightAlpha) {
+            isHor = true;
+        } else {
+            isHor = false;
         }
-        mVideoWidth = videoWidth / 2;
+
+        if (isHor) {
+            videoWidth /= 2; //左右分布的源视频，实际显示的宽度需要除以2
+        } else {
+            videoHeight /= 2; //上下分布的源视频，实际显示的高度需要除以2
+        }
+
+        if (videoWidth > 0 && videoHeight > 0) {
+            videoAspectRatio = (float) videoWidth / videoHeight;
+        }
+        mVideoWidth = videoWidth;
         mVideoHeight = videoHeight;
         requestLayout();
         invalidate();

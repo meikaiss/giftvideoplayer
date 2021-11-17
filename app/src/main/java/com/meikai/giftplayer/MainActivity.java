@@ -25,9 +25,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.btn_03:
-
+                VideoViewActivity.launch(this, "topColorBottomAlpha_1.mp4");
                 break;
             case R.id.btn_04:
+                Intent intent2 = new Intent(view.getContext(), TopColorBottomAlphaActivity.class);
+                startActivity(intent2);
                 break;
             default:
                 break;

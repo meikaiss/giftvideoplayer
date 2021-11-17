@@ -40,17 +40,28 @@ public class GiftRenderer implements GLTextureView.Renderer, SurfaceTexture.OnFr
     private static final int TRIANGLE_VERTICES_DATA_POS_OFFSET = 0;
     private static final int TRIANGLE_VERTICES_DATA_UV_OFFSET = 2;
 
-    private final float[] triangleVerticesData = {
-            // x , y, s , t
+    //左右分布（包含左色彩右黑白、左黑白右色彩）的顶点坐标和纹理坐标，每四个中，前两位为顶点坐标，后两位为纹理坐标
+    private static final float[] leftRightTriangleVerticesData1 = {
             -1.0f, 1.0f, 0.5f, 0.0f,
             1.0f, 1.0f, 1.0f, 0.0f,
             -1.0f, -1.0f, 0.5f, 1.0f,
             1.0f, -1.0f, 1.0f, 1.0f,
     };
 
+    //上下分布（包含上色彩下黑白、上黑白下色彩）的顶点坐标和纹理坐标
+    private static final float[] leftRightTriangleVerticesData2 = {
+            -1.0f, 1.0f, 0.0f, 0.5f,
+            1.0f, 1.0f, 1.0f, 0.5f,
+            -1.0f, -1.0f, 0.0f, 1.0f,
+            1.0f, -1.0f, 1.0f, 1.0f,
+    };
+
+    //实际生效的顶点坐标和纹理坐标
+    private float[] triangleVerticesData = leftRightTriangleVerticesData1;
+
     private FloatBuffer triangleVertices;
 
-    private final String vertexShader = "attribute vec2 a_position;\n"
+    private static final String vertexShader = "attribute vec2 a_position;\n"
             + "attribute vec2 a_texCoord;\n"
             + "varying vec2 v_texcoord;\n"
             + "void main(void) {\n"
@@ -61,25 +72,50 @@ public class GiftRenderer implements GLTextureView.Renderer, SurfaceTexture.OnFr
     /**
      * 对应源视频要求为：左彩色、右黑白
      */
-    private final String alphaShader = "#extension GL_OES_EGL_image_external : require\n"
+    private static final String alphaShader1 = "#extension GL_OES_EGL_image_external : require\n"
             + "precision mediump float;\n"
             + "varying vec2 v_texcoord;\n"
             + "uniform samplerExternalOES sTexture;\n"
             + "void main() {\n"
-            + "  gl_FragColor = vec4(texture2D(sTexture, v_texcoord + vec2(-0.4956, 0)).rgb, texture2D(sTexture, v_texcoord).r);\n"
+            + "  gl_FragColor = vec4(texture2D(sTexture, v_texcoord + vec2(-0.5, 0)).rgb, texture2D(sTexture, v_texcoord).r);\n"
             + "}\n";
 
 
     /**
      * 对应源视频要求为：左黑白、右彩色
      */
-    private final String alphaShader2 = "#extension GL_OES_EGL_image_external : require\n"
+    private static final String alphaShader2 = "#extension GL_OES_EGL_image_external : require\n"
             + "precision mediump float;\n"
             + "varying vec2 v_texcoord;\n"
             + "uniform samplerExternalOES sTexture;\n"
             + "void main() {\n"
             + "  gl_FragColor = vec4(texture2D(sTexture, v_texcoord).rgb, texture2D(sTexture, v_texcoord + vec2(-0.5, 0)).r);\n"
             + "}\n";
+
+    /**
+     * 对应源视频要求为：上彩色、下黑白
+     */
+    private static final String alphaShader3 = "#extension GL_OES_EGL_image_external : require\n"
+            + "precision mediump float;\n"
+            + "varying vec2 v_texcoord;\n"
+            + "uniform samplerExternalOES sTexture;\n"
+            + "void main() {\n"
+            + "  gl_FragColor = vec4(texture2D(sTexture, v_texcoord + vec2(0, -0.5)).rgb, texture2D(sTexture, v_texcoord).r);\n"
+            + "}\n";
+
+
+    /**
+     * 对应源视频要求为：上黑白、下彩色
+     */
+    private static final String alphaShader4 = "#extension GL_OES_EGL_image_external : require\n"
+            + "precision mediump float;\n"
+            + "varying vec2 v_texcoord;\n"
+            + "uniform samplerExternalOES sTexture;\n"
+            + "void main() {\n"
+            + "  gl_FragColor = vec4(texture2D(sTexture, v_texcoord).rgb, texture2D(sTexture, v_texcoord + vec2(0, -0.5)).r);\n"
+            + "}\n";
+
+    private String alphaShader = alphaShader1;
 
     private int program;
     private int textureID;
@@ -91,12 +127,36 @@ public class GiftRenderer implements GLTextureView.Renderer, SurfaceTexture.OnFr
 
     private OnSurfacePrepareListener onSurfacePrepareListener;
 
+    private AlphaMode alphaMode;
+
+    public AlphaMode getAlphaMode() {
+        return alphaMode;
+    }
+
     public GiftRenderer() {
         triangleVertices = ByteBuffer.allocateDirect(triangleVerticesData.length * FLOAT_SIZE_BYTES)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
-        triangleVertices.put(triangleVerticesData).position(0);
 
-        //Matrix.setIdentityM(sTMatrix, 0);
+        setAlphaMode(null);
+    }
+
+    public void setAlphaMode(AlphaMode alphaMode) {
+        this.alphaMode = alphaMode;
+        if (alphaMode == null || alphaMode == AlphaMode.LeftColorRightAlpha) {
+            triangleVerticesData = leftRightTriangleVerticesData1;
+            alphaShader = alphaShader1;
+        } else if (alphaMode == AlphaMode.LeftAlphaRightColor) {
+            triangleVerticesData = leftRightTriangleVerticesData1;
+            alphaShader = alphaShader2;
+        } else if (alphaMode == AlphaMode.TopColorBottomAlpha) {
+            triangleVerticesData = leftRightTriangleVerticesData2;
+            alphaShader = alphaShader3;
+        } else if (alphaMode == AlphaMode.TopAlphaBottomColor) {
+            triangleVerticesData = leftRightTriangleVerticesData2;
+            alphaShader = alphaShader4;
+        }
+
+        triangleVertices.put(triangleVerticesData).position(0);
     }
 
     @Override
@@ -104,7 +164,6 @@ public class GiftRenderer implements GLTextureView.Renderer, SurfaceTexture.OnFr
         synchronized (this) {
             if (updateSurface) {
                 surface.updateTexImage();
-                //surface.getTransformMatrix(sTMatrix);
                 updateSurface = false;
             }
         }
@@ -120,6 +179,7 @@ public class GiftRenderer implements GLTextureView.Renderer, SurfaceTexture.OnFr
 //        GLES20.glEnable(GL_POLYGON_SMOOTH_HINT);
 
         GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         GLES20.glUseProgram(program);
