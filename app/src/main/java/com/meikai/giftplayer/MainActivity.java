@@ -18,10 +18,10 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_01:
-
+                VideoViewActivity.launch(this, "leftColorRightAlpha_1.mp4");
                 break;
             case R.id.btn_02:
-                Intent intent = new Intent(view.getContext(), DemoActivity.class);
+                Intent intent = new Intent(view.getContext(), LeftColorRightAlphaActivity.class);
                 startActivity(intent);
                 break;
             case R.id.btn_03:

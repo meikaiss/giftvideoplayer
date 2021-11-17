@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class DemoActivity extends AppCompatActivity {
+public class LeftColorRightAlphaActivity extends AppCompatActivity {
 
     private ViewGroup layoutContainer;
     private GiftVideoView giftVideoView;
